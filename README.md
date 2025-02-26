@@ -74,7 +74,7 @@ Edit by Yuna Lin 2025/02/26
 ### 執行報表生成
 
 1. **準備三個必要 ID**
-    - **1️⃣ Google Sheet Questionnaire — Spreadsheet ID**
+    **1️⃣ Google Sheet Questionnaire — Spreadsheet ID**
         
         請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
         
@@ -95,7 +95,7 @@ Edit by Yuna Lin 2025/02/26
         
         ⚠️ 為了程式執行需要，Google Sheet 底部需包含 QUESTIONNAIRE_END_MARKER 列
         
-    - **2️⃣ Google Doc Template — Document ID**
+    **2️⃣ Google Doc Template — Document ID**
         
         程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得其 ID
         
@@ -103,7 +103,7 @@ Edit by Yuna Lin 2025/02/26
         
         ⚠️  為了程式執行需要，文件中需包含 DOC_INSERTION_POINT 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
         
-    - **3️⃣ Google Drive Folder — Folder ID**
+    **3️⃣ Google Drive Folder — Folder ID**
         
         圖片暫存需要，報告生成後可刪除，任何資料夾皆可
         
@@ -112,15 +112,15 @@ Edit by Yuna Lin 2025/02/26
     
         以上三個 ID 皆可由網址中取得，位置分別如下：
     
-        **1️⃣ Spreadsheet ID:**
+        1️⃣ Spreadsheet ID:
     
             https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit?gid=SHEET_ID#gid=SHEET_ID
     
-        **2️⃣ Document ID:**
+        2️⃣ Document ID:
     
             https://docs.google.com/document/d/<DOCUMENT_ID>/edit
     
-        **3️⃣ Folder ID:** 
+        3️⃣ Folder ID:
     
             https://drive.google.com/drive/u/0/folders/<FOLDER_ID>
     
