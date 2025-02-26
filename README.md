@@ -45,10 +45,15 @@ Edit by Yuna Lin 2025/02/26
 - **SUMMARY**
 
     <aside>
-        1. 準備三個必要 ID (Spreadsheet, Document, Folder)
-        2. 修改設定檔案 (settings.py)
-        3. 執行專案
-        4. 檢查 Google Doc 內容
+
+        1️⃣ 準備三個必要 ID (Spreadsheet, Document, Folder)
+
+        2️⃣ 修改設定檔案 (settings.py)
+
+        3️⃣ 執行專案
+
+        4️⃣ 檢查 Google Doc 內容
+
     </aside>
 
 1. **準備三個必要 ID**
@@ -90,15 +95,15 @@ Edit by Yuna Lin 2025/02/26
             若 Question 中 Checklist 所有選項（含以上皆非）都沒被勾選，該 Question 就會被略過；若 Topic 中的所有 Question 都被略過，則該 Topic 會被略過
             
         
-        ⚠️ 為了程式執行需要，Google Sheet 底部需包含 QUESTIONNAIRE_END_MARKER 列
+        ⚠️ 為了程式執行需要，Google Sheet 底部需包含 `QUESTIONNAIRE_END_MARKER` 列
         
     - **2️⃣ Google Doc Template — Document ID**
         
         程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得新檔案的 ID
         
-        ⚠️  在「報告日期」欄位需包含 REPORT_DATE 字樣，用於代入報告日期
+        ⚠️  在「報告日期」欄位需包含 `REPORT_DATE` 字樣，用於代入報告日期
         
-        ⚠️  為了程式執行需要，文件中需包含 DOC_INSERTION_POINT 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
+        ⚠️  為了程式執行需要，文件中需包含 `DOC_INSERTION_POINT` 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
         
     - **3️⃣ Google Drive Folder — Folder ID**
         
