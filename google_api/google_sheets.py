@@ -138,11 +138,6 @@ def process_sheet_data(df, worksheet, merges):
             if num_topic != -1:
                 # 判斷該主題下所有問題是否皆標記為不適用
                 topic_not_applicable = all(q['not_applicable'] for q in data['topics'][num_topic]['questions'])
-                # topic_not_applicable = True
-                # for q in data['topics'][num_topic]['questions']:
-                #     if not q['not_applicable']:
-                #         topic_not_applicable = False
-                #         break
                 data['topics'][num_topic]['not_applicable'] = topic_not_applicable
 
             is_new_topic = True
