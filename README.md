@@ -74,13 +74,32 @@ Edit by Yuna Lin 2025/02/26
 ### 執行報表生成
 
 1. **準備三個必要 ID**
+
+    <aside>
+    
+        三個 ID 皆可由網址中取得，位置分別如下：
+    
+        1️⃣ Spreadsheet ID:
+    
+            https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit?gid=SHEET_ID#gid=SHEET_ID
+    
+        2️⃣ Document ID:
+    
+            https://docs.google.com/document/d/<DOCUMENT_ID>/edit
+    
+        3️⃣ Folder ID:
+    
+            https://drive.google.com/drive/u/0/folders/<FOLDER_ID>
+    
+    </aside>
+
     - **1️⃣ Google Sheet Questionnaire — Spreadsheet ID**
         
         請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
         
         - LLM 統整欄位說明
             
-            若 settings.py 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
+            Google Sheet 中以下三個欄位供 LLM 生成使用，若 settings.py 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
             
             | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
             | --- | --- | --- |
@@ -97,7 +116,7 @@ Edit by Yuna Lin 2025/02/26
         
     - **2️⃣ Google Doc Template — Document ID**
         
-        程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得其 ID
+        程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得新檔案的 ID
         
         ⚠️  在「報告日期」欄位需包含 REPORT_DATE 字樣，用於代入報告日期
         
@@ -106,25 +125,6 @@ Edit by Yuna Lin 2025/02/26
     - **3️⃣ Google Drive Folder — Folder ID**
         
         圖片暫存需要，報告生成後可刪除，任何資料夾皆可
-        
-    
-    <aside>
-    
-        以上三個 ID 皆可由網址中取得，位置分別如下：
-    
-        1️⃣ Spreadsheet ID:
-    
-            https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit?gid=SHEET_ID#gid=SHEET_ID
-    
-        2️⃣ Document ID:
-    
-            https://docs.google.com/document/d/<DOCUMENT_ID>/edit
-    
-        3️⃣ Folder ID:
-    
-            https://drive.google.com/drive/u/0/folders/<FOLDER_ID>
-    
-    </aside>
     
 2. 依需求修改 settings.py 檔案
     - (Required) 填入 GCP Project ID 與前一個步驟取得的三個 ID
@@ -229,7 +229,7 @@ Edit by Yuna Lin 2025/02/26
             - link_c_2
 2. 提升讀寫效率
     
-    目前產生報告的速度主要受限於 API 的 quota (60 次/min)，為避免超過額度，
+    目前產生報告的速度主要受限於 API 的 quota (60 次/min)，為避免超過額度，目前程式設有 sleep 機制，由 settings.py
     
 3. 
 
