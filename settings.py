@@ -6,10 +6,10 @@
 #   - GOOGLE_DOC_ID: WAF Google Doc 報告 ID
 #   - GOOGLE_DRIVE_FOLDER_ID: Google Drive 資料夾 ID（用於上傳圖片）
 # =========================================================================
-GOOGLE_PROJECT_ID = "tw-rd-sa-yuna"
-GOOGLE_SHEET_ID = "1O5vYCtLPdVJQxy9TF9emaK2OUakWQAGl05_9RliMgjI" 
-GOOGLE_DOC_ID = "1QZl1OXZqGLi6WM6SsaHydniKd1aeLdKbgGnepm6oM_g"
-GOOGLE_DRIVE_FOLDER_ID = "1UXehOOy3vWUEvgG3FSEIr5FkoJzhVHd2"  
+GOOGLE_PROJECT_ID = "YOUR_GCP_PROJECT_ID"
+GOOGLE_SHEET_ID = "<SPREADSHEET_ID>" 
+GOOGLE_DOC_ID = "<DOCUMENT_ID>/"
+GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>" 
 
 # =========================================================================
 # 參數設定
@@ -17,7 +17,7 @@ GOOGLE_DRIVE_FOLDER_ID = "1UXehOOy3vWUEvgG3FSEIr5FkoJzhVHd2"
 #   - ENABLE_AI_GENERATION: 是否使用 Gen AI 生成報告內容，False 時只讀取 Google Sheet 的現有資料
 # =========================================================================
 REPORT_DATE = ""
-ENABLE_AI_GENERATION = False
+ENABLE_AI_GENERATION = True
 
 # =========================================================================
 # AI 處理 Prompt 設定
