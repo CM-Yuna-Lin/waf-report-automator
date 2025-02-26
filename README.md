@@ -4,7 +4,6 @@ Edit by Yuna Lin 2025/02/26
 
 ## Abstract / 專案摘要
 
----
 
 本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well Architect Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
 
@@ -21,7 +20,6 @@ Edit by Yuna Lin 2025/02/26
 
 ## Excetion Guide / 執行步驟說明
 
----
 
 ### 安裝與環境
 
@@ -176,7 +174,6 @@ Edit by Yuna Lin 2025/02/26
 
 ## Project Structure / 專案架構
 
----
 
 ```bash
 .
@@ -209,7 +206,6 @@ Edit by Yuna Lin 2025/02/26
 
 ## Additional Information / 其他說明
 
----
 
 1. Best Practice 與 Reference 數量不符相關 WARNING
     
@@ -252,19 +248,19 @@ Edit by Yuna Lin 2025/02/26
 
 ## Feature Modifications & Expansion Suggestions / 功能修改 & 擴充建議
 
-1. 如何修改報告文字格式（字體、顏色…）
+1. **修改報告文字格式（字體、顏色…）**
     
     程式在寫入報告時參考的是 Google Doc Template 當中的 Paragraph styles，若要更改 Template 文字格式，請在執行程式前利用從 Google Doc Template 中修改 Paragraph styles。
     
     - 例如，若要修改 Heading 1，請直接在 Template doc 中將 Heading 1 調整成想要的格式後從 Format > Paragraph styles > Heading 1 > Update ‘Heading 1’ to match 進行格式更新
 
-2. 批次處理寫入請求，提升報告生成效率
+2. **批次處理寫入請求，提升報告生成效率**
 
     報告產生的速度主要受限於 LLM 回覆速度與 API 的 quota (60 次/min)，為避免出錯，目前程式設有 sleep 機制，每次發出一般 API 請求後會休息一秒，可由 settings.py 中的 SLEEP 參數進行調整（單位：秒）。
     
     為清晰顯示資料處理進度，目前許多寫入請求為單項處理，若有需要，後續可整併為批次處理，減少請求次數，便可調降 sleep 機制的時長與觸發次數
 
-2. DataFrame 結構修改
+2. **修改 DataFrame 結構，提升可讀性**
 
     google sheets 問卷中的資料經 process_sheet_data() 轉換後，DataFrame 會整理成嵌套的 JSON-like 結構，其層級大致如下：
 
