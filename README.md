@@ -154,13 +154,22 @@ Edit by Yuna Lin 2025/02/26
         REPORT_DATE = ""
         ENABLE_AI_GENERATION = True
         ```
-        
+
     - (Optional) LLM Prompt 調整
         
         ```python
         # =========================================================================
         # AI 處理 Prompt 設定
         #   - PROMPTS: 各任務對應的系統提示文字，用以引導 LLM 生成內容
+        #
+        #              [形式] 
+        #              {
+        #                  "任務名稱_1": "任務提示文字_1",
+        #                  "任務名稱_2": "任務提示文字_2",
+        #                  "任務名稱_3": "任務提示文字_3"
+        #              }
+        # 
+        #              (若要調整 prompt，請編輯任務提示文字，請勿改動任務名稱)
         # =========================================================================
         PROMPTS = {
             "refine_client_status_notes": "以下是Well Architect Framework的現況，請協助潤飾成客觀專業且簡潔的紀錄，不要加入額外資訊或建議， 字數在100字以內",
@@ -184,7 +193,7 @@ Edit by Yuna Lin 2025/02/26
 
 ---
 
-以下內容增修中...
+# 以下內容增修中...
 
 ---
 
@@ -201,11 +210,7 @@ Edit by Yuna Lin 2025/02/26
         
         | GCP Best Practices | GCP Best Practices |
         | --- | --- |
-        | best practice a
-        best practice b
-        best practice c | link_a
-        link_c_1
-        link_c_2 |
+        | best practice a<br>best practice b<br>best practice c | link_a<br>link_c_1<br>link_c_2 |
         - 對應結果：
             - best practice a ↔ link_a
             - best practice b ↔ link_c
@@ -215,23 +220,24 @@ Edit by Yuna Lin 2025/02/26
         
         | GCP Best Practices | GCP Best Practices |
         | --- | --- |
-        | best practice a
-        best practice b
-        best practice c
-        NA | link_a
-        NA
-        link_c_1
-        link_c_2 |
+        | best practice a<br>best practice b<br>best practice c<br>NA | link_a<br>NA<br>link_c_1<br>link_c_2 |
         - 對應結果：
             - best practice a ↔ link_a
             - best practice b
             - best practice c ↔ link_c_1
             - link_c_2
-2. 提升讀寫效率
+
+2. 提升報告生成效率
     
-    目前產生報告的速度主要受限於 API 的 quota (60 次/min)，為避免超過額度，目前程式設有 sleep 機制，由 settings.py
+    報告產生的速度主要受限於 LLM 回覆速度與 API 的 quota (60 次/min)，為避免出錯，目前程式設有 sleep 機制，每次發出一般 API 請求後會休息一秒，可由 settings.py 中的 SLEEP 參數進行調整（單位：秒）
+
+    1. 解決 LLM 瓶頸
     
-3. 
+        在特定情況下，若不需要重新生成內容，可將 ENABLE_AI_GENERATION 改為 False，省去 LLM 回覆時間
+
+    2. 解決 API 請求額度瓶頸
+
+        由 GCP console 調高 API 請求額度，便可將 SLEEP 調整為更短的秒數
 
 ### 功能修改/擴充建議
 
@@ -240,4 +246,94 @@ Edit by Yuna Lin 2025/02/26
     程式在寫入報告時參考的是 Google Doc Template 當中的 Paragraph styles，若要更改 Template 文字格式，請在執行程式前利用從 Google Doc Template 中修改 Paragraph styles。
     
     - 例如，若要修改 Heading 1，請直接在 Template doc 中將 Heading 1 調整成想要的格式後從 Format > Paragraph styles > Heading 1 > Update ‘Heading 1’ to match 進行格式更新
-2. 
+
+2. 批次處理寫入請求，提升報告生成效率
+
+    報告產生的速度主要受限於 LLM 回覆速度與 API 的 quota (60 次/min)，為避免出錯，目前程式設有 sleep 機制，每次發出一般 API 請求後會休息一秒，可由 settings.py 中的 SLEEP 參數進行調整（單位：秒）。
+    
+    為清晰顯示資料處理進度，目前許多寫入請求為單項處理，若有需要，後續可整併為批次處理，減少請求次數，便可調降 sleep 機制的時長與觸發次數
+
+2. DataFrame 結構修改
+
+    google sheets 問卷中的資料經 process_sheet_data() 轉換後，DataFrame 會整理成嵌套的 JSON-like 結構，其層級大致如下：
+
+    ```python
+    {
+        "total_score": int,   # 總得分
+        "total_num": int,     # 總問題數
+        "topics": [           # 主題清單
+            {
+                "topic": str,       # 主題名稱
+                "topic_score": int, # 該主題得分
+                "topic_num": int,   # 該主題的問題數
+                "not_applicable": bool, # 是否適用該主題
+                "questions": [      # 問題清單
+                    {
+                        "score": int,        # 問題得分
+                        "num": int,          # 該問題的選項數
+                        "client_condition": str,  # 客戶現況
+                        "improvement_plan": str,  # 改進計畫
+                        "area": str,         # 問題所屬領域
+                        "question": str,     # 具體問題
+                        "stage": str,        # 建議的發展階段
+                        "not_applicable": bool, # 是否適用
+                        "items": [           # 選項清單
+                            {
+                                "check": bool,   # 是否勾選該選項
+                                "item": str,     # 選項名稱
+                                "note": str,     # 客戶填寫的原始備註
+                                "refined_note": str,  # AI 生成的潤飾備註
+                                "best_practice": list[str], # 最佳實踐
+                                "best_practice_ref": list[str], # 最佳實踐參考連結
+                                "best_practice_content": str   # 最佳實踐內容
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+
+    若要提升可讀性，後續可考慮後續可考慮改以 python Class 表示結構，例如：
+
+    ```python
+    from typing import List, Optional
+
+    class Item:
+        def __init__(self, check: bool, item: str, note: str, refined_note: str, best_practice: List[str], best_practice_ref: List[str], best_practice_content: str):
+            self.check = check
+            self.item = item
+            self.note = note
+            self.refined_note = refined_note
+            self.best_practice = best_practice
+            self.best_practice_ref = best_practice_ref
+            self.best_practice_content = best_practice_content
+
+    class Question:
+        def __init__(self, question: str, area: str, reco: str, client_condition: str, improvement_plan: str, score: int, num: int, not_applicable: bool, items: List[Item]):
+            self.question = question
+            self.area = area
+            self.reco = reco
+            self.client_condition = client_condition
+            self.improvement_plan = improvement_plan
+            self.score = score
+            self.num = num
+            self.not_applicable = not_applicable
+            self.items = items
+
+    class Topic:
+        def __init__(self, topic: str, topic_score: int, topic_num: int, not_applicable: bool, questions: List[Question]):
+            self.topic = topic
+            self.topic_score = topic_score
+            self.topic_num = topic_num
+            self.not_applicable = not_applicable
+            self.questions = questions
+
+    class ReportData:
+        def __init__(self, total_score: int, total_num: int, topics: List[Topic]):
+            self.total_score = total_score
+            self.total_num = total_num
+            self.topics = topics
+
+    ```
