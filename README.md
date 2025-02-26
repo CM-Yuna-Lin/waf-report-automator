@@ -76,36 +76,36 @@ Edit by Yuna Lin 2025/02/26
 1. **準備三個必要 ID**
     - **1️⃣ Google Sheet Questionnaire — Spreadsheet ID**
         
-            請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
+        請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
+        
+        - LLM 統整欄位說明
             
-            - LLM 統整欄位說明
-                
-                若 [config.py](http://config.py) 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
-                
-                | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
-                | --- | --- | --- |
-                | Refined Notes | 潤飾 ‘Client Status Notes’ 欄位的內容 | `Client Status Notes`  |
-                | Client Conditions | 依據 Question 中各個 Item 的達成情形，統整出客戶對於該 Question 的 WAF 現況 | `Items`, `Checklist`, `Refined Notes`/`Client Status Notes`  |
-                | Suggested Improvements | 統整尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
-                
-            - Topic/Question 略過機制說明
-                
-                若 Question 中 Checklist 所有選項（含以上皆非）都沒被勾選，該 Question 就會被略過；若 Topic 中的所有 Question 都被略過，則該 Topic 會被略過
-                
+            若 [config.py](http://config.py) 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
             
-            ⚠️ 為了程式執行需要，Google Sheet 底部需包含 QUESTIONNAIRE_END_MARKER 列
+            | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
+            | --- | --- | --- |
+            | Refined Notes | 潤飾 ‘Client Status Notes’ 欄位的內容 | `Client Status Notes`  |
+            | Client Conditions | 依據 Question 中各個 Item 的達成情形，統整出客戶對於該 Question 的 WAF 現況 | `Items`, `Checklist`, `Refined Notes`/`Client Status Notes`  |
+            | Suggested Improvements | 統整尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
+            
+        - Topic/Question 略過機制說明
+            
+            若 Question 中 Checklist 所有選項（含以上皆非）都沒被勾選，該 Question 就會被略過；若 Topic 中的所有 Question 都被略過，則該 Topic 會被略過
+            
+        
+        ⚠️ 為了程式執行需要，Google Sheet 底部需包含 QUESTIONNAIRE_END_MARKER 列
         
     - **2️⃣ Google Doc Template — Document ID**
         
-            程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得其 ID
-            
-            ⚠️  在「報告日期」欄位需包含 REPORT_DATE 字樣，用於代入報告日期
-            
-            ⚠️  為了程式執行需要，文件中需包含 DOC_INSERTION_POINT 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
+        程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得其 ID
+        
+        ⚠️  在「報告日期」欄位需包含 REPORT_DATE 字樣，用於代入報告日期
+        
+        ⚠️  為了程式執行需要，文件中需包含 DOC_INSERTION_POINT 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
         
     - **3️⃣ Google Drive Folder — Folder ID**
         
-            圖片暫存需要，報告生成後可刪除，任何資料夾皆可
+        圖片暫存需要，報告生成後可刪除，任何資料夾皆可
         
     
     <aside>
