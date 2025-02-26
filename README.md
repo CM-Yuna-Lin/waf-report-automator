@@ -42,6 +42,15 @@ Edit by Yuna Lin 2025/02/26
 
 ### 執行報表生成
 
+- **SUMMARY**
+
+    <aside>
+        1. 準備三個必要 ID (Spreadsheet, Document, Folder)
+        2. 修改設定檔案 (settings.py)
+        3. 執行專案
+        4. 檢查 Google Doc 內容
+    </aside>
+
 1. **準備三個必要 ID**
 
     <aside>
