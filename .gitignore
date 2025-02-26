@@ -16,9 +16,10 @@ venv/
 *.pyc
 *.out
 
-# 忽略 Images 資料夾內的所有 PNG 檔案
-Images/*.png
+# 忽略 credentials/ 底下的所有檔案，但保留資料夾
+credentials/*
+!credentials/.gitkeep
 
-# 確保 Images 資料夾本身不被忽略
-!Images/.gitkeep
-
+# 忽略 images/ 底下的所有檔案，但保留資料夾
+images/*
+!images/.gitkeep
