@@ -1,56 +1,85 @@
-# WAF report generator doc
+# WAF Report Automator
 
-# Google WAF 報告生成工具
+Edit by Yuna Lin 2025/02/26
 
-Edit by Yuna Lin 2025/02/13
-
-## Abstract / 摘要
+## Abstract / 專案摘要
 
 ---
 
-本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well Architect Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。
+本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well Architect Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
 
 此工具使用 Google API 來讀取試算表、生成報表、上傳圖片，並透過生成式 AI（Gemini）來優化數據摘要。
 
-### 功能介紹
+### 主要功能
 
-- Google Sheets 整合 - 讀取試算表數據，解析內容
-- 圖表自動生成 - 創建儀表圖（Gauge Chart）和輻射圖（Radial Chart）
-- AI 賦能 - 透過 Gemini LLM 生成數據摘要
-- Google Docs 報表輸出 - 自動填寫報告，包含數據圖表與分析
+- 從 Google Sheets 擷取並處理問卷資料
+- 使用生成式 AI（如 Gemini）處理資料潤飾與統整
+- 自動生成各類圖表並上傳至 Google Drive
+- 自動填充 Google Docs 報告模板
 
-## Steps / 步驟說明
+## 專案架構
 
 ---
 
-### 環境與安裝
+```bash
+.
+├── README.md                   # 專案說明文件，介紹專案用途與使用方式
+├── main.py                     # 主入口程式，負責整合流程（認證、讀取資料、生成圖表與報告）
+├── settings.py                 # 全域設定檔，定義 API 金鑰、文件 ID、參數等配置
+│
+├── credentials/                
+│   ├── client_secret.json      # Google API 用戶端金鑰設定檔
+│   └── token.pickle            # 存儲 Google API 存取令牌的檔案
+│
+├── google_api/                 
+│   ├── google_auth.py          # Google API 驗證與服務初始化模組
+│   ├── google_docs.py          # Google Docs 報告生成相關函式
+│   ├── google_sheets.py        # Google Sheets 資料讀取相關函式
+│   └── google_sheets_merges.py # 處理試算表合併儲存格狀態的工具
+│
+├── images/                     # 圖表圖片輸出資料夾
+│
+└── utils/ 
+    ├── best_practice_scraper.py  # 用於抓取最佳實務網站內容（效果不彰暫緩使用）
+    ├── chart_generate_handler.py # 圖表生成處理與圖片上傳 Google Drive 的整合模組
+    ├── chart_generator_gauge.py  # 使用 pyecharts 生成儀表圖的模組
+    ├── chart_generator_radial.py # 使用 matplotlib 生成徑向條形圖及圖例合併的模組
+    ├── display_settings.py       # 輸出當前配置設定的工具模組
+    ├── remove_image_whitespace.py             # 圖片裁剪工具，移除圖片多餘的空白邊界
+    └── llm_handler.py            # 與 LLM 互動的封裝函式，用於生成或潤飾文字
+```
 
-1. 安裝必要套件
-    
-    請確保你的環境已安裝 Python（推薦 Python 3.8+），並安裝必要的套件：
+## Steps / 執行步驟說明
+
+---
+
+### 安裝與環境
+
+1. 從 GitHub clone repository
+2. 安裝必要套件
     
     ```bash
     pip install -r requirements.txt
     ```
     
-2. 確保 Google Cloud Project 已啟用需要的 API
+3. 確保 Google Cloud Project 已啟用需要的 API
     - Google Sheets API
     - Google Docs API
     - Vertex AI API
     - Gemini for Google Cloud API
     - Google Drive API
-3. 下載 OAuth 2.0 認證文件（`client_secret.json`）放在 credentials 資料夾中，並在首次執行程式跳出授權頁面時，登入 Google 帳戶進行授權
+4. 從 GCP console > API & Services > Credentials 下載 OAuth 2.0 Client ID，重新命名為 `client_secret.json` 放在 credentials 資料夾中（首次執行時，程式會引導進行 Google 帳戶登入授權）
 
 ### 執行報表生成
 
 1. **準備三個必要 ID**
-    - **(1) Google Sheet Questionnaire — Spreadsheet ID**
+    1. **Google Sheet Questionnaire — Spreadsheet ID**
         
         請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
         
         - LLM 統整欄位說明
             
-            若 [settings.py](http://settings.py) 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
+            若 [config.py](http://config.py) 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
             
             | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
             | --- | --- | --- |
@@ -65,7 +94,7 @@ Edit by Yuna Lin 2025/02/13
         
         ⚠️ 為了程式執行需要，Google Sheet 底部需包含 QUESTIONNAIRE_END_MARKER 列
         
-    - **(2) Google Doc Template — Document ID**
+    2. **Google Doc Template — Document ID**
         
         程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得其 ID
         
@@ -73,7 +102,7 @@ Edit by Yuna Lin 2025/02/13
         
         ⚠️  為了程式執行需要，文件中需包含 DOC_INSERTION_POINT 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
         
-    - **(3) Google Drive Folder ID**
+    3. **Google Drive Folder ID**
         
         圖片暫存需要，報告生成後可刪除，任何資料夾皆可
         
@@ -85,15 +114,15 @@ Edit by Yuna Lin 2025/02/13
     
     **(1) Spreadsheet ID:**
     
-    https://docs.google.com/spreadsheets/d/**SPREADSHEET_ID**/edit?gid=SHEET_ID#gid=SHEET_ID
+    https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit?gid=SHEET_ID#gid=SHEET_ID
     
     **(2) Document ID:**
     
-    https://docs.google.com/document/d/**DOCUMENT_ID**/edit
+    https://docs.google.com/document/d/<DOCUMENT_ID>/edit
     
-    **(3) Folder ID:** 
+    (3) Folder ID: 
     
-    https://drive.google.com/drive/u/0/folders/**FOLDER_ID**
+    https://drive.google.com/drive/u/0/folders/<FOLDER_ID>
     
     </aside>
     
@@ -101,45 +130,44 @@ Edit by Yuna Lin 2025/02/13
     - (Required) 填入 GCP Project ID 與前一個步驟取得的三個 ID
         
         ```python
-        # ========================
-        # 變數設定（必須修改）
-        # ========================
-        
+        # =========================================================================
+        # 必須修改的變數
+        #   - GOOGLE_PROJECT_ID: Google Cloud 專案 ID
+        #   - GOOGLE_SHEET_ID: WAF Google Sheet 問卷 ID
+        #   - GOOGLE_DOC_ID: WAF Google Doc 報告 ID
+        #   - GOOGLE_DRIVE_FOLDER_ID: Google Drive 資料夾 ID（用於上傳圖片）
+        # =========================================================================
         GOOGLE_PROJECT_ID = "YOUR_GCP_PROJECT_ID"
-        GOOGLE_SHEET_ID = "YOUR_SPREADSHEET_ID" 
-        GOOGLE_DOC_ID = "YOUR_DOCUMENT_ID"
-        GOOGLE_DRIVE_FOLDER_ID = "YOUR_FOLDERID"  
+        GOOGLE_SHEET_ID = "<SPREADSHEET_ID>" 
+        GOOGLE_DOC_ID = "<DOCUMENT_ID>/"
+        GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>"  
         ```
         
     - (Optional) 細節參數調整
         
         ```python
-        # ========================
+        # =========================================================================
         # 參數設定
-        # ========================
-        
-        # 文件日期設定（用於 Google Doc {{REPORT_DATE}} 佔位符）
-        REPORT_DATE = ""  # 若留空，則自動填入當天日期
-        
-        # AI 使用設定，若設為 False，則只讀取 Google Sheet 既有內容，不進行 AI 生成
+        #   - REPORT_DATE: 用於替換 Google Doc 中 {{REPORT_DATE}} 的日期字串，若留空則自動填入當天日期
+        #   - ENABLE_AI_GENERATION: 是否使用 Gen AI 生成報告內容，False 時只讀取 Google Sheet 的現有資料
+        # =========================================================================
+        REPORT_DATE = ""
         ENABLE_AI_GENERATION = True
         ```
         
     - (Optional) LLM Prompt 調整
         
         ```python
-        # ========================
+        # =========================================================================
         # AI 處理 Prompt 設定
-        # ========================
-        
-        # 記錄任務名稱，以及進行該任務時對 LLM 下達的 system prompt
-        # 修改 system prompt 時請勿更動任務名稱
+        #   - PROMPTS: 各任務對應的系統提示文字，用以引導 LLM 生成內容
+        # =========================================================================
         PROMPTS = {
-            "rephrase_reply": "以下是Well Architect Framework的現況，請協助潤飾成客觀專業且簡潔的紀錄，不要加入額外資訊或建議， 字數在100字以內",
-            "summarize_client_condition": "以下是Well Architect Framework的現況，請協助統整成客觀專業的紀錄，不要加入額外資訊或建議，字數在100字以內",
-            "summarize_improvement_plan": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
-            "summarize_category_title": "Please extract a topic of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
-            "match_text_with_web": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
+            "refine_client_status_notes": "以下是Well Architect Framework的現況，請協助潤飾成客觀專業且簡潔的紀錄，不要加入額外資訊或建議， 字數在100字以內",
+            "summarize_client_conditions": "以下是Well Architect Framework的現況，請協助統整成客觀專業的紀錄，不要加入額外資訊或建議，字數在100字以內",
+            "summarize_improvement_plans": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
+            "extract_question_aspects": "Please extract an aspect of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
+            "find_relevant_best_practices": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
         }
         ```
         
@@ -149,21 +177,22 @@ Edit by Yuna Lin 2025/02/13
     python main.py
     ```
     
-    - 受限於讀寫 API 限制 & Gen AI 生成回覆速度，此步驟耗費時間不一，每個 Topic 約需 5 分鐘
+    - 受限於讀寫 API 限制 & Gen AI 生成回覆速度，因應每份問卷需處理的項目不同，此步驟耗費時間不一，每個 Topic 約需 5 分鐘
 4. 檢查 Google Doc 內容
     1. 重新整理 Google Doc 目錄
     2. 檢查 AI 生成內容是否合宜
 
-## 其他設定與常見問題 / Additional Notes
+---
+
+以下內容增修中...
 
 ---
 
-- 如何修改報告文字格式（字體、顏色…）
-    
-    程式在寫入報告時參考的是 Google Doc Template 當中的 Paragraph styles，若要更改 Template 文字格式，請在執行程式前利用從 Google Doc Template 中修改 Prargraph styles。
-    
-    - 例如，若要修改 Heading 1，請將 Heading 1 調整成想要的格式後從 Format > Paragraph styles > Heading 1 > Update ‘Heading 1’ to match 進行格式更新
-- Best Practice 與 Reference 數量不符相關 WARNING
+## 其他說明
+
+---
+
+1. Best Practice 與 Reference 數量不符相關 WARNING
     
     由於 Google Sheet Questionnaire 中的 Best Practices 與 Best Practice References 可能存在一對多或多對一的對應關係，若 Best Practice 與 Reference 出現數量不一致的情況，就會以 WARNING 提醒注意超連結正確性
     
@@ -198,16 +227,17 @@ Edit by Yuna Lin 2025/02/13
             - best practice b
             - best practice c ↔ link_c_1
             - link_c_2
+2. 提升讀寫效率
+    
+    目前產生報告的速度主要受限於 API 的 quota (60 次/min)，為避免超過額度，
+    
+3. 
 
-## Summary / 總結
+### 功能修改/擴充建議
 
----
-
-本專案為 WAF 報告生成工具，能夠讀取 Google Sheets 問卷數據、使用 AI 生成數據摘要，並將結果輸出至 Google Docs 報告。其使用方式為：
-
-1. 準備三個必要 ID
-2. 修改 settings 檔案
-3. 執行
-4. 檢察報告內容
-
-本工具適用於企業架構評估與最佳實踐分析，提升報告生成的自動化與專業度。
+1. 如何修改報告文字格式（字體、顏色…）
+    
+    程式在寫入報告時參考的是 Google Doc Template 當中的 Paragraph styles，若要更改 Template 文字格式，請在執行程式前利用從 Google Doc Template 中修改 Paragraph styles。
+    
+    - 例如，若要修改 Heading 1，請直接在 Template doc 中將 Heading 1 調整成想要的格式後從 Format > Paragraph styles > Heading 1 > Update ‘Heading 1’ to match 進行格式更新
+2. 
