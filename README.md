@@ -80,11 +80,11 @@ Edit by Yuna Lin 2025/02/26
         
         - LLM 統整欄位說明
             
-            若 [config.py](http://config.py) 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
+            若 settings.py 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
             
             | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
             | --- | --- | --- |
-            | Refined Notes | 潤飾 ‘Client Status Notes’ 欄位的內容 | `Client Status Notes`  |
+            | Refined Notes | 潤飾 `Client Status Notes` 欄位的內容 | `Client Status Notes`  |
             | Client Conditions | 依據 Question 中各個 Item 的達成情形，統整出客戶對於該 Question 的 WAF 現況 | `Items`, `Checklist`, `Refined Notes`/`Client Status Notes`  |
             | Suggested Improvements | 統整尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
             
