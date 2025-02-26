@@ -17,40 +17,9 @@ Edit by Yuna Lin 2025/02/26
 - 自動生成各類圖表並上傳至 Google Drive
 - 自動填充 Google Docs 報告模板
 
-## 專案架構
 
----
 
-```bash
-.
-├── README.md                   # 專案說明文件，介紹專案用途與使用方式
-├── main.py                     # 主入口程式，負責整合流程（認證、讀取資料、生成圖表與報告）
-├── settings.py                 # 全域設定檔，定義 API 金鑰、文件 ID、參數等配置
-├── requirements.txt
-│
-├── credentials/                
-│   ├── client_secret.json      # Google API 用戶端金鑰設定檔
-│   └── token.pickle            # 存儲 Google API 存取令牌的檔案
-│
-├── google_api/                 
-│   ├── google_auth.py          # Google API 驗證與服務初始化模組
-│   ├── google_docs.py          # Google Docs 報告生成相關函式
-│   ├── google_sheets.py        # Google Sheets 資料讀取相關函式
-│   └── google_sheets_merges.py # 處理試算表合併儲存格狀態的工具
-│
-├── images/                     # 圖表圖片輸出資料夾
-│
-└── utils/ 
-    ├── best_practice_scraper.py   # 用於抓取最佳實務網站內容（效果不彰暫緩使用）
-    ├── chart_generate_handler.py  # 圖表生成處理與圖片上傳 Google Drive 的整合模組
-    ├── chart_generator_gauge.py   # 使用 pyecharts 生成儀表圖的模組
-    ├── chart_generator_radial.py  # 使用 matplotlib 生成徑向條形圖及圖例合併的模組
-    ├── display_settings.py        # 輸出當前配置設定的工具模組
-    ├── remove_image_whitespace.py # 圖片裁剪工具，移除圖片多餘的空白邊界
-    └── llm_handler.py             # 與 LLM 互動的封裝函式，用於生成或潤飾文字
-```
-
-## Steps / 執行步驟說明
+## Excetion Guide / 執行步驟說明
 
 ---
 
@@ -191,13 +160,40 @@ Edit by Yuna Lin 2025/02/26
     1. 重新整理 Google Doc 目錄
     2. 檢查 AI 生成內容是否合宜
 
----
-
-# 以下內容增修中...
+## Project Structure / 專案架構
 
 ---
 
-## 其他說明
+```bash
+.
+├── README.md                   # 專案說明文件，介紹專案用途與使用方式
+├── main.py                     # 主入口程式，負責整合流程（認證、讀取資料、生成圖表與報告）
+├── settings.py                 # 全域設定檔，定義 API 金鑰、文件 ID、參數等配置
+├── requirements.txt
+│
+├── credentials/                
+│   ├── client_secret.json      # Google API 用戶端金鑰設定檔
+│   └── token.pickle            # 存儲 Google API 存取令牌的檔案
+│
+├── google_api/                 
+│   ├── google_auth.py          # Google API 驗證與服務初始化模組
+│   ├── google_docs.py          # Google Docs 報告生成相關函式
+│   ├── google_sheets.py        # Google Sheets 資料讀取相關函式
+│   └── google_sheets_merges.py # 處理試算表合併儲存格狀態的工具
+│
+├── images/                     # 圖表圖片輸出資料夾
+│
+└── utils/ 
+    ├── best_practice_scraper.py   # 用於抓取最佳實務網站內容（效果不彰暫緩使用）
+    ├── chart_generate_handler.py  # 圖表生成處理與圖片上傳 Google Drive 的整合模組
+    ├── chart_generator_gauge.py   # 使用 pyecharts 生成儀表圖的模組
+    ├── chart_generator_radial.py  # 使用 matplotlib 生成徑向條形圖及圖例合併的模組
+    ├── display_settings.py        # 輸出當前配置設定的工具模組
+    ├── remove_image_whitespace.py # 圖片裁剪工具，移除圖片多餘的空白邊界
+    └── llm_handler.py             # 與 LLM 互動的封裝函式，用於生成或潤飾文字
+```
+
+## Additional Information / 其他說明
 
 ---
 
@@ -239,7 +235,8 @@ Edit by Yuna Lin 2025/02/26
 
         由 GCP console 調高 API 請求額度，便可將 SLEEP 調整為更短的秒數
 
-### 功能修改/擴充建議
+
+## Feature Modifications & Expansion Suggestions / 功能修改 & 擴充建議
 
 1. 如何修改報告文字格式（字體、顏色…）
     
