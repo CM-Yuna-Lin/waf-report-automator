@@ -26,6 +26,7 @@ Edit by Yuna Lin 2025/02/26
 ├── README.md                   # 專案說明文件，介紹專案用途與使用方式
 ├── main.py                     # 主入口程式，負責整合流程（認證、讀取資料、生成圖表與報告）
 ├── settings.py                 # 全域設定檔，定義 API 金鑰、文件 ID、參數等配置
+├── requirements.txt
 │
 ├── credentials/                
 │   ├── client_secret.json      # Google API 用戶端金鑰設定檔
@@ -40,13 +41,13 @@ Edit by Yuna Lin 2025/02/26
 ├── images/                     # 圖表圖片輸出資料夾
 │
 └── utils/ 
-    ├── best_practice_scraper.py  # 用於抓取最佳實務網站內容（效果不彰暫緩使用）
-    ├── chart_generate_handler.py # 圖表生成處理與圖片上傳 Google Drive 的整合模組
-    ├── chart_generator_gauge.py  # 使用 pyecharts 生成儀表圖的模組
-    ├── chart_generator_radial.py # 使用 matplotlib 生成徑向條形圖及圖例合併的模組
-    ├── display_settings.py       # 輸出當前配置設定的工具模組
-    ├── remove_image_whitespace.py             # 圖片裁剪工具，移除圖片多餘的空白邊界
-    └── llm_handler.py            # 與 LLM 互動的封裝函式，用於生成或潤飾文字
+    ├── best_practice_scraper.py   # 用於抓取最佳實務網站內容（效果不彰暫緩使用）
+    ├── chart_generate_handler.py  # 圖表生成處理與圖片上傳 Google Drive 的整合模組
+    ├── chart_generator_gauge.py   # 使用 pyecharts 生成儀表圖的模組
+    ├── chart_generator_radial.py  # 使用 matplotlib 生成徑向條形圖及圖例合併的模組
+    ├── display_settings.py        # 輸出當前配置設定的工具模組
+    ├── remove_image_whitespace.py # 圖片裁剪工具，移除圖片多餘的空白邊界
+    └── llm_handler.py             # 與 LLM 互動的封裝函式，用於生成或潤飾文字
 ```
 
 ## Steps / 執行步驟說明
