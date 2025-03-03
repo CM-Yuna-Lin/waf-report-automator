@@ -41,7 +41,8 @@ def clean_sheet_data(data):
         'Refined Notes': 'refined_note',
         'GCP Best Practices': 'best_practice',
         'GCP Best Practice References': 'best_practice_ref',
-        'GCP Best Practice Content': 'best_practice_content'
+        'GCP Best Practice Content': 'best_practice_content',
+        'Suggestion': 'suggestion'
     }, inplace=True)
 
     return df
@@ -128,6 +129,8 @@ def process_sheet_data(df, worksheet, merges):
 
     temp_score, temp_num = 0, 0
 
+    suggestion_collection = []
+
     for idx, row in df.iterrows():
         # 若項目為空則略過
         if row['item'] == "":
@@ -200,6 +203,12 @@ def process_sheet_data(df, worksheet, merges):
                     time.sleep(SLEEP)
                     data['topics'][nt]['questions'][nq]['client_condition'] = client_condition
                     data['topics'][nt]['questions'][nq]['improvement_plan'] = improvement_plan
+                    suggestion_collection.append({
+                        'topic': data['topics'][nt]['topic'],
+                        'client_condition': client_condition,
+                        'improvement_plan': improvement_plan,
+                    })
+                
                 # else:
                 #     worksheet.update_cell(idx_question_prev + 2, df.columns.get_loc('improvement_plan') + 1, "SKIPPED")
                 #     time.sleep(SLEEP)
@@ -210,8 +219,8 @@ def process_sheet_data(df, worksheet, merges):
             data['topics'][num_topic]['questions'].append({
                 'score': 0,
                 'num': 0,
-                'client_condition': "",
-                'improvement_plan': "",
+                'client_condition': row['client_condition'],
+                'improvement_plan': row['improvement_plan'],
                 'area': current_area,
                 'question': row['question'],
                 'stage': row['stage'],
@@ -271,6 +280,14 @@ def process_sheet_data(df, worksheet, merges):
 
         temp_num += 1
         is_new_topic = False
+
+    suggestion = df.iloc[0, df.columns.get_loc('suggestion')]
+    if ENABLE_AI_GENERATION and suggestion_collection:
+        suggestion = llm("gemini", "summarize_suggestion", "", str(suggestion_collection))
+    data['suggestion'] = suggestion
+    worksheet.update_cell(2, df.columns.get_loc('suggestion') + 1, suggestion)
+    time.sleep(SLEEP)
+
 
     return data
 

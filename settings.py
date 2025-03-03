@@ -38,6 +38,7 @@ PROMPTS = {
     "summarize_improvement_plans": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
     "extract_question_aspects": "Please extract an aspect of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
     "find_relevant_best_practices": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
+    "summarize_suggestion": "以下是客戶Well Architect Framework各topic的現況與建議，請根據這些內容給客戶具體的改善建議，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
 }
 
 # ========================================================================

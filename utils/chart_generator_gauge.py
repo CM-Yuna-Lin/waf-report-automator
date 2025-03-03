@@ -27,7 +27,7 @@ def create_gauge_chart(name: str, maturity: float, formatted_date: str) -> str:
         Gauge()
         .add(
             series_name='',  # 系列名稱（此處不顯示名稱）
-            data_pair=[('Maturity', maturity)],  # 圖表數據：標籤 'Maturity' 與其對應數值
+            data_pair=[('成熟度', maturity)],  # 圖表數據：標籤 'Maturity' 與其對應數值
             min_=0,         # 儀表圖最小值
             max_=100,       # 儀表圖最大值
             split_number=10,  # 儀表圖刻度分段數量
