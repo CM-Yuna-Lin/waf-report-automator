@@ -36,7 +36,8 @@ def create_gauge_chart(name: str, maturity: float, formatted_date: str) -> str:
             end_angle=-45,    # 儀表圖結束角度（以度為單位）
             is_clock_wise=True,  # 刻度增長方向是否為順時針
             detail_label_opts=opts.GaugeDetailOpts(
-                formatter="{value}%"  # 自定義細節標籤格式（顯示百分比）
+                formatter="{value}%",  # 自定義細節標籤格式（顯示百分比）
+                font_size=30
             ),
             axisline_opts=opts.AxisLineOpts(
                 linestyle_opts=opts.LineStyleOpts(
@@ -51,6 +52,12 @@ def create_gauge_chart(name: str, maturity: float, formatted_date: str) -> str:
             pointer=opts.GaugePointerOpts(
                 width=10  # 指針寬度
             ),
+            title_label_opts=opts.LabelOpts(
+                font_size=30  # 增加 "Maturity" 的字體大小
+            ),
+            axislabel_opts=opts.LabelOpts(
+                font_size=20  # 增加刻度標籤的字體大小
+            )
         )
         .set_global_opts(
             legend_opts=opts.LegendOpts(is_show=True)  # 顯示圖例

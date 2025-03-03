@@ -50,7 +50,7 @@ def create_radial_chart(name: str, values: list, categories: list, formatted_dat
     # 設定 x 軸（徑向方向）範圍及刻度標籤，標示百分比
     ax.set_xlim(0, np.pi)
     ax.set_xticks([np.pi * i / 10 for i in range(11)])
-    ax.set_xticklabels([f'{i}%' for i in range(0, 101, 10)])
+    ax.set_xticklabels([f'{i}%' for i in range(0, 101, 10)], fontsize=20)
 
     # 儲存主圖：徑向條形圖
     main_chart_name = f"./images/{formatted_date}_radial_{name}_chart.png"
@@ -62,7 +62,7 @@ def create_radial_chart(name: str, values: list, categories: list, formatted_dat
     legend_fig, legend_ax = plt.subplots(figsize=(10, 10))
     # 提取每個條形圖的第一個 patch 作為圖例項目
     legend_handles = [bar[0] for bar in bars]
-    legend_ax.legend(handles=legend_handles, labels=categories, loc='center', frameon=False, ncol=3)
+    legend_ax.legend(handles=legend_handles, labels=categories, loc='center', frameon=False, ncol=2, fontsize=20)
     legend_ax.axis('off')
 
     # 儲存圖例圖
