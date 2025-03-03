@@ -130,7 +130,7 @@ def insert_link(requests: list, startIndex: int, endIndex: int, url: str) -> lis
     })
     return requests
 
-def insert_image(requests: list, insertIndex: int, path: str, img_serial_num: int, img_num: int, img_cat: str) -> (int, list):
+def insert_image(requests: list, insertIndex: int, path: str, img_serial_num: int, img_num: int, img_cat='gauge') -> (int, list):
     """
     在指定位置插入圖片，並根據是否為最後一張圖片決定換行格式。
 
@@ -145,14 +145,14 @@ def insert_image(requests: list, insertIndex: int, path: str, img_serial_num: in
     if img_serial_num != 0:
         insertIndex -= len("\n")
 
-    img_width = {'gauge': 176, 'radial': 250}
+    img_height = {'gauge': 140, 'radial': 140, 'total': 200}
 
     requests.append({
         'insertInlineImage': {
             'location': {'index': insertIndex},
             'uri': path,
             'objectSize': {
-                'height': {'magnitude': 140, 'unit': 'PT'},
+                'height': {'magnitude': img_height[img_cat], 'unit': 'PT'},
                 # 'width': {'magnitude': img_width[img_cat], 'unit': 'PT'}
             }
         }
@@ -225,12 +225,15 @@ def generate_report(service, data: dict) -> None:
     text_here, requests = get_content_start(requests, service, DOC_INSERTION_POINT)
     total_score = data['total_score']
     total_num = data['total_num']
-    total_maturity = f"{total_score}/{total_num} → {round(total_score/total_num * 100, 1)}%"
-    text_here, requests = insert_text(requests, f"總成熟度分數: {total_maturity}", "HEADING_1", text_here)
+    total_maturity = f"{round(total_score/total_num * 100, 1)}%"
+    text_here, requests = insert_text(requests, f"\nWell Architect 整體成熟度: {total_maturity}\n", "HEADING_1", text_here)
 
     # 插入整體圖表
     for img_serial_num, uri in enumerate(data['chart_path']):
-        text_here, requests = insert_image(requests, text_here, uri, img_serial_num, len(data['chart_path']), data['chart_cat'][img_serial_num])
+        text_here, requests = insert_image(requests, text_here, uri, img_serial_num, len(data['chart_path']), 'total')
+    text_here, requests = insert_text(requests, f"\n\n", "HEADING_1", text_here)
+
+    topic_cnt = 0
 
     # 處理每個主題
     for topic in data['topics']:
@@ -238,10 +241,12 @@ def generate_report(service, data: dict) -> None:
             break
         if topic['not_applicable']:
             continue
-
+        
+        topic_cnt += 1
         text_here, requests = get_content_start(requests, service, DOC_INSERTION_POINT)
-        text_here, requests = insert_text(requests, topic['topic'], "HEADING_1", text_here)
-        text_here, requests = insert_text(requests, f"主題成熟度：{topic['topic_score']}/{topic['topic_num']} → {round(topic['topic_score']/topic['topic_num'] * 100, 1)}%", "NORMAL_TEXT", text_here)
+        text_here, requests = insert_text(requests, f"\nTopic {topic_cnt}", "HEADING_6", text_here)
+        text_here, requests = insert_text(requests, f"{topic['topic']} ☁️", "HEADING_1", text_here)
+        text_here, requests = insert_text(requests, f"主題成熟度：{round(topic['topic_score']/topic['topic_num'] * 100, 1)}%", "NORMAL_TEXT", text_here)
 
         # 插入主題圖表
         for img_serial_num, uri in enumerate(topic['chart_path']):
@@ -298,7 +303,7 @@ def generate_report(service, data: dict) -> None:
         
             # 插入現況成熟度
             text_here, requests = insert_text(requests, "現況成熟度", "HEADING_3", text_here)
-            text_here, requests = insert_text(requests, f"    {question['score']}/{question['num']} → {round(question['score']/question['num'] * 100, 1)}%", "NORMAL_TEXT", text_here)
+            text_here, requests = insert_text(requests, f"{round(question['score']/question['num'] * 100, 1)}%", "NORMAL_TEXT", text_here)
             
             # 插入現況總整理
             text_here, requests = insert_text(requests, "現況總整理", "HEADING_3", text_here)
@@ -335,8 +340,8 @@ def generate_report(service, data: dict) -> None:
 
         print(f"\n  ❏ Topic {topic['topic']} 寫入完成")
 
-    # 刪除定位用字串
-    requests = delete_text(requests, service, DOC_INSERTION_POINT)
-    requests = update_doc(service, requests)
+    # # 刪除定位用字串
+    # requests = delete_text(requests, service, DOC_INSERTION_POINT)
+    # requests = update_doc(service, requests)
 
     print("\n╚═════════════════════════ GOOGLE DOC 資料寫入已完成 ═════════════════════════╝")

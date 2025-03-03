@@ -50,7 +50,7 @@ def create_radial_chart(name: str, values: list, categories: list, formatted_dat
     # 設定 x 軸（徑向方向）範圍及刻度標籤，標示百分比
     ax.set_xlim(0, np.pi)
     ax.set_xticks([np.pi * i / 10 for i in range(11)])
-    ax.set_xticklabels([f'{i}%' for i in range(0, 101, 10)], fontsize=20)
+    ax.set_xticklabels([f'{i}%' for i in range(0, 101, 10)], fontsize=15)
 
     # 儲存主圖：徑向條形圖
     main_chart_name = f"./images/{formatted_date}_radial_{name}_chart.png"
