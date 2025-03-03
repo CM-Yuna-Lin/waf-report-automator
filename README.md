@@ -36,7 +36,7 @@ Edit by Yuna Lin 2025/02/26
     - Vertex AI API
     - Gemini for Google Cloud API
     - Google Drive API
-4. 從 GCP console > API & Services > Credentials 下載 OAuth 2.0 Client ID，重新命名為 `client_secret.json` 放在 credentials 資料夾中（首次執行時，程式會引導進行 Google 帳戶登入授權）
+4. 從 GCP console > API & Services > Credentials 下載 OAuth 2.0 Client ID (Application type 需選擇 Desktop app)，重新命名為 `client_secret.json` 放在 credentials 資料夾中（首次執行時，程式會引導進行 Google 帳戶登入授權）
 
 ### 執行報表生成
 
