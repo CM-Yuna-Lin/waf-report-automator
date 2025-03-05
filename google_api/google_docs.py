@@ -343,6 +343,13 @@ def generate_report(service, data: dict) -> None:
     
     # text_here, requests = insert_text(requests, f"\nWell Architect 整體改善建議", "HEADING_1", text_here)
     # text_here, requests = insert_text(requests, f"    {data['suggestion']}", "NORMAL_TEXT", text_here)
+    text_here, requests = insert_text(requests, f"\nWell Architect 改善建議", "HEADING_1", text_here)
+    for i, stage in enumerate(STAGE_ORDER): 
+        text_here, requests = insert_text(requests, f"{stage}", "HEADING_3", text_here)
+        if data['suggestions'][i]:
+            text_here, requests = insert_text(requests, f"    {data['suggestions'][i]}", "NORMAL_TEXT", text_here)
+        else:
+            text_here, requests = insert_text(requests, "    (無)", "NORMAL_TEXT", text_here, 1)
     
     # # 刪除定位用字串
     # requests = delete_text(requests, service, DOC_INSERTION_POINT)
