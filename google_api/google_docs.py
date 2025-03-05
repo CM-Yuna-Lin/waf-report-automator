@@ -341,9 +341,8 @@ def generate_report(service, data: dict) -> None:
 
         print(f"\n  ❏ Topic {topic['topic']} 寫入完成")
     
-    total_maturity = f"{round(total_score/total_num * 100, 1)}%"
-    text_here, requests = insert_text(requests, f"\nWell Architect 整體改善建議", "HEADING_1", text_here)
-    text_here, requests = insert_text(requests, f"    {data['suggestion']}", "NORMAL_TEXT", text_here)
+    # text_here, requests = insert_text(requests, f"\nWell Architect 整體改善建議", "HEADING_1", text_here)
+    # text_here, requests = insert_text(requests, f"    {data['suggestion']}", "NORMAL_TEXT", text_here)
     
     # # 刪除定位用字串
     # requests = delete_text(requests, service, DOC_INSERTION_POINT)
