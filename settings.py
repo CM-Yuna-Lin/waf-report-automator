@@ -9,15 +9,17 @@
 GOOGLE_PROJECT_ID = "YOUR_GCP_PROJECT_ID"
 GOOGLE_SHEET_ID = "<SPREADSHEET_ID>" 
 GOOGLE_DOC_ID = "<DOCUMENT_ID>/"
-GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>" 
+GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>"  
 
 # =========================================================================
 # 參數設定
 #   - REPORT_DATE: 用於替換 Google Doc 中 {{REPORT_DATE}} 的日期字串，若留空則自動填入當天日期
 #   - ENABLE_AI_GENERATION: 是否使用 Gen AI 生成報告內容，False 時只讀取 Google Sheet 的現有資料
+#   - STAGE_ORDER: 改善建議所須的分類，分類結果會依此順序列在報告的最尾部
 # =========================================================================
 REPORT_DATE = ""
 ENABLE_AI_GENERATION = True
+STAGE_ORDER = ["短期", "中期", "長期", "其他"]
 
 # =========================================================================
 # AI 處理 Prompt 設定
@@ -38,7 +40,7 @@ PROMPTS = {
     "summarize_improvement_plans": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
     "extract_question_aspects": "Please extract an aspect of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
     "find_relevant_best_practices": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
-    "summarize_suggestion": "以下是客戶Well Architect Framework各topic的現況與建議，請根據這些內容給客戶具體的改善建議，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
+    "summarize_suggestion": "以下是客戶Well Architect Framework各topic的現況與建議，請整理出重點，解釋其為何被劃為「短期/中期/長期」，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
 }
 
 # ========================================================================

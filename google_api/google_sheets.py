@@ -129,7 +129,10 @@ def process_sheet_data(df, worksheet, merges):
 
     temp_score, temp_num = 0, 0
 
-    suggestion_collection = []
+    # 依照 settings.py 中 STAGE_ORDER 順序初始化，用於蒐集改善建議所須數據
+    suggestion_collection = {}
+    for stage in STAGE_ORDER:
+        suggestion_collection[stage] = []
 
     for idx, row in df.iterrows():
         # 若項目為空則略過
@@ -203,7 +206,10 @@ def process_sheet_data(df, worksheet, merges):
                     time.sleep(SLEEP)
                     data['topics'][nt]['questions'][nq]['client_condition'] = client_condition
                     data['topics'][nt]['questions'][nq]['improvement_plan'] = improvement_plan
-                    suggestion_collection.append({
+
+                    # 蒐集改善建議所須數據
+                    stage = data['topics'][nt]['questions'][nq]['stage'] if data['topics'][nt]['questions'][nq]['stage'] else "其他"
+                    suggestion_collection[stage].append({
                         'topic': data['topics'][nt]['topic'],
                         'client_condition': client_condition,
                         'improvement_plan': improvement_plan,
@@ -281,13 +287,14 @@ def process_sheet_data(df, worksheet, merges):
         temp_num += 1
         is_new_topic = False
 
-    suggestion = df.iloc[0, df.columns.get_loc('suggestion')]
-    if ENABLE_AI_GENERATION and suggestion_collection:
-        suggestion = llm("gemini", "summarize_suggestion", "", str(suggestion_collection))
-    data['suggestion'] = suggestion
-    worksheet.update_cell(2, df.columns.get_loc('suggestion') + 1, suggestion)
-    time.sleep(SLEEP)
-
+    # 將蒐集到的數據統整為改善建議
+    suggestions = [df.iloc[_, df.columns.get_loc('suggestion')] for _ in range(len(STAGE_ORDER))]
+    for i, stage in enumerate(STAGE_ORDER):
+        if ENABLE_AI_GENERATION and suggestion_collection[stage]:
+            suggestions[i] = llm("gemini", "summarize_suggestion", stage, str(suggestion_collection[stage]))
+            worksheet.update_cell(2 + i, df.columns.get_loc('suggestion') + 1, suggestions[i])
+            time.sleep(SLEEP)
+    data['suggestions'] = suggestions
 
     return data
 
