@@ -1,6 +1,6 @@
 # WAF Report Automator
 
-Edit by Yuna Lin 2025/02/26
+Edit by Yuna Lin 2025/03/12
 
 ## Abstract / 專案摘要
 
@@ -87,6 +87,8 @@ Edit by Yuna Lin 2025/02/26
             | Refined Notes | 潤飾 `Client Status Notes` 欄位的內容 | `Client Status Notes`  |
             | Client Conditions | 依據 Question 中各個 Item 的達成情形，統整出客戶對於該 Question 的 WAF 現況 | `Items`, `Checklist`, `Refined Notes`/`Client Status Notes`  |
             | Suggested Improvements | 統整尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
+            | Suggestion | 集合整份報告中的建議，依照 STAGE_ORDER 指定的順序進行分類統整，並由 Google Sheets 中 Suggestion 欄位的第 2 行開始往下填寫（STAGE_ORDER 預設順序為短期/中期/長期/其他） | `Topics`, `Suggested Development Stages`, `Client Conditions`, `Suggested Improvements` |
+
             
         - Topic/Question 略過機制說明
             
@@ -97,7 +99,7 @@ Edit by Yuna Lin 2025/02/26
         
     - **2️⃣ Google Doc Template — Document ID**
         
-        程式將把報告內容寫入此文件檔案，請複製原 WAF-Template 檔案後取得新檔案的 ID
+        程式將把報告內容寫入此文件檔案，請複製原 Template 檔案後取得新檔案的 ID
         
         ⚠️  在「報告日期」欄位需包含 `REPORT_DATE` 字樣，用於代入報告日期
         
@@ -158,6 +160,7 @@ Edit by Yuna Lin 2025/02/26
             "summarize_improvement_plans": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
             "extract_question_aspects": "Please extract an aspect of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
             "find_relevant_best_practices": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
+            "summarize_suggestion": "以下是客戶Well Architect Framework各topic的現況與建議，請整理出重點，解釋其為何被劃為「短期/中期/長期」，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
         }
         ```
         
@@ -298,7 +301,8 @@ Edit by Yuna Lin 2025/02/26
                     }
                 ]
             }
-        ]
+        ],
+        "suggestions": list[str] # 建議事項
     }
     ```
 
@@ -338,9 +342,10 @@ Edit by Yuna Lin 2025/02/26
             self.questions = questions
 
     class ReportData:
-        def __init__(self, total_score: int, total_num: int, topics: List[Topic]):
+        def __init__(self, total_score: int, total_num: int, topics: List[Topic], suggestions: List[str]):
             self.total_score = total_score
             self.total_num = total_num
             self.topics = topics
+            self.suggestions = suggestions
 
     ```
