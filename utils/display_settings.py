@@ -7,7 +7,6 @@ def display_settings():
         f"GOOGLE_SHEET_ID: {GOOGLE_SHEET_ID}",
         f"GOOGLE_DOC_ID: {GOOGLE_DOC_ID}",
         "GenAI is Currently Enabled" if ENABLE_AI_GENERATION else "GenAI is Currently Disabled",
-        f"STAGE_ORDER: {STAGE_ORDER}"
     ]
 
     # 定義邊框樣式與寬度（header 的長度即為整體寬度）

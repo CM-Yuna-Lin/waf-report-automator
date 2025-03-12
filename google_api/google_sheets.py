@@ -208,7 +208,7 @@ def process_sheet_data(df, worksheet, merges):
                     data['topics'][nt]['questions'][nq]['improvement_plan'] = improvement_plan
 
                     # 蒐集改善建議所須數據
-                    stage = row['stage'] if row['stage'] else "其他"
+                    stage = data['topics'][nt]['questions'][nq]['stage'] if data['topics'][nt]['questions'][nq]['stage'] else "其他"
                     suggestion_collection[stage].append({
                         'topic': data['topics'][nt]['topic'],
                         'client_condition': client_condition,

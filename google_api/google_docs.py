@@ -195,10 +195,11 @@ def merge_data(requests: list, placeholder: str, text: str) -> list:
     :param text: 替換為的文字
     :return: 更新後的請求列表
     """
+    placeholder = '{{' + placeholder + '}}'
     requests.append({
         'replaceAllText': {
             'containsText': {
-                'text': '{{' + placeholder + '}}',
+                'text': placeholder,
                 'matchCase': 'true'
             },
             'replaceText': text
@@ -342,7 +343,7 @@ def generate_report(service, data: dict) -> None:
         print(f"\n  ❏ Topic {topic['topic']} 寫入完成")
     
     # 插入短中長期改善建議
-    text_here, requests = insert_text(requests, f"Well Architect 改善建議", "HEADING_1", text_here)
+    text_here, requests = insert_text(requests, f"Well Architect 改善建議統整", "HEADING_1", text_here)
     for i, stage in enumerate(STAGE_ORDER): 
         text_here, requests = insert_text(requests, f"{stage}", "HEADING_3", text_here)
         if data['suggestions'][i]:
