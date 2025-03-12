@@ -80,13 +80,13 @@ Edit by Yuna Lin 2025/03/12
         
         - LLM 統整欄位說明
             
-            Google Sheet 中以下三個欄位供 LLM 生成使用，若 settings.py 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
+            Google Sheet 中以下四個欄位供 LLM 生成使用，若 settings.py 中 `ENABLE_AI_GENERATION` 設為 False，則程式會直接讀取欄位中原有的內容，不額外進行生成
             
             | Google Sheet 欄位名稱 | 欄位內容 | 參照欄位 |
             | --- | --- | --- |
             | Refined Notes | 潤飾 `Client Status Notes` 欄位的內容 | `Client Status Notes`  |
             | Client Conditions | 依據 Question 中各個 Item 的達成情形，統整出客戶對於該 Question 的 WAF 現況 | `Items`, `Checklist`, `Refined Notes`/`Client Status Notes`  |
-            | Suggested Improvements | 統整尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
+            | Suggested Improvements | 統整 Question 中各個 Item 尚未達成的 Best Practices，總結出建議改善事項 | `GCP Best Practices`, `GCP Best Practice Content` |
             | Suggestion | 集合整份報告中的建議，依照 STAGE_ORDER 指定的順序進行分類統整，並由 Google Sheets 中 Suggestion 欄位的第 2 行開始往下填寫（STAGE_ORDER 預設順序為短期/中期/長期/其他） | `Topics`, `Suggested Development Stages`, `Client Conditions`, `Suggested Improvements` |
 
             
@@ -122,7 +122,7 @@ Edit by Yuna Lin 2025/03/12
         # =========================================================================
         GOOGLE_PROJECT_ID = "YOUR_GCP_PROJECT_ID"
         GOOGLE_SHEET_ID = "<SPREADSHEET_ID>" 
-        GOOGLE_DOC_ID = "<DOCUMENT_ID>/"
+        GOOGLE_DOC_ID = "<DOCUMENT_ID>"
         GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>"  
         ```
         
@@ -136,6 +136,7 @@ Edit by Yuna Lin 2025/03/12
         # =========================================================================
         REPORT_DATE = ""
         ENABLE_AI_GENERATION = True
+        STAGE_ORDER = STAGE_ORDER = ["短期", "中期", "長期", "其他"]
         ```
 
     - (Optional) LLM Prompt 調整
@@ -210,7 +211,7 @@ Edit by Yuna Lin 2025/03/12
 ## Additional Information / 其他說明
 
 
-1. Best Practice 與 Reference 數量不符相關 WARNING
+1. **Best Practice 與 Reference 數量不符相關 WARNING**
     
     由於 Google Sheet Questionnaire 中的 Best Practices 與 Best Practice References 可能存在一對多或多對一的對應關係，若 Best Practice 與 Reference 出現數量不一致的情況，就會以 WARNING 提醒注意超連結正確性
     
@@ -236,7 +237,7 @@ Edit by Yuna Lin 2025/03/12
             - best practice c ↔ link_c_1
             - link_c_2
 
-2. 提升報告生成效率
+2. **提升報告生成效率**
     
     報告產生的速度主要受限於 LLM 回覆速度與 API 的 quota (60 次/min)，為避免出錯，目前程式設有 sleep 機制，每次發出一般 API 請求後會休息一秒，可由 settings.py 中的 SLEEP 參數進行調整（單位：秒）
 
@@ -302,11 +303,11 @@ Edit by Yuna Lin 2025/03/12
                 ]
             }
         ],
-        "suggestions": list[str] # 建議事項
+        "suggestions": list[str] # 改善建議
     }
     ```
 
-    若要提升可讀性，後續可考慮後續可考慮改以 python Class 表示結構，例如：
+    若要提升可讀性，後續可考慮改以 python Class 管理結構，例如：
 
     ```python
     from typing import List, Optional

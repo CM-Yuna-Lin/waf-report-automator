@@ -15,6 +15,7 @@ GOOGLE_DRIVE_FOLDER_ID = "<FOLDER_ID>"
 # 參數設定
 #   - REPORT_DATE: 用於替換 Google Doc 中 {{REPORT_DATE}} 的日期字串，若留空則自動填入當天日期
 #   - ENABLE_AI_GENERATION: 是否使用 Gen AI 生成報告內容，False 時只讀取 Google Sheet 的現有資料
+#   - STAGE_ORDER: 改善建議所須的分類，分類結果會依此順序列在報告的最尾部
 # =========================================================================
 REPORT_DATE = ""
 ENABLE_AI_GENERATION = True

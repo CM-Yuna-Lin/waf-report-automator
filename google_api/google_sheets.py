@@ -291,7 +291,6 @@ def process_sheet_data(df, worksheet, merges):
     suggestions = [df.iloc[_, df.columns.get_loc('suggestion')] for _ in range(len(STAGE_ORDER))]
     for i, stage in enumerate(STAGE_ORDER):
         if ENABLE_AI_GENERATION and suggestion_collection[stage]:
-            print(f"{i}: {stage}\n{suggestion_collection[stage]}\n\n")
             suggestions[i] = llm("gemini", "summarize_suggestion", stage, str(suggestion_collection[stage]))
             worksheet.update_cell(2 + i, df.columns.get_loc('suggestion') + 1, suggestions[i])
             time.sleep(SLEEP)
