@@ -5,7 +5,7 @@ Edit by Yuna Lin 2025/03/12
 ## Abstract / 專案摘要
 
 
-本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well Architect Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
+本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well-Architected Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
 
 此工具使用 Google API 來讀取試算表、生成報表、上傳圖片，並透過生成式 AI（Gemini）來優化數據摘要。
 
@@ -156,12 +156,12 @@ Edit by Yuna Lin 2025/03/12
         #              (若要調整 prompt，請編輯任務提示文字，請勿改動任務名稱)
         # =========================================================================
         PROMPTS = {
-            "refine_client_status_notes": "以下是Well Architect Framework的現況，請協助潤飾成客觀專業且簡潔的紀錄，不要加入額外資訊或建議， 字數在100字以內",
-            "summarize_client_conditions": "以下是Well Architect Framework的現況，請協助統整成客觀專業的紀錄，不要加入額外資訊或建議，字數在100字以內",
-            "summarize_improvement_plans": "以下對客戶Well Architect Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
+            "refine_client_status_notes": "以下是Well-Architected Framework的現況，請協助潤飾成客觀專業且簡潔的紀錄，不要加入額外資訊或建議， 字數在100字以內",
+            "summarize_client_conditions": "以下是Well-Architected Framework的現況，請協助統整成客觀專業的紀錄，不要加入額外資訊或建議，字數在100字以內",
+            "summarize_improvement_plans": "以下對客戶Well-Architected Framework的所有建議改善事項，請協助統整成專業的建議建議事項，要參考所有提供的資料，包含具體細節，請用中文撰寫，字數在150字以內",
             "extract_question_aspects": "Please extract an aspect of five words or fewer from the question in English, for example: 'COST 1. How do you implement cloud financial management?' can be summarized as 'Financial Management'.",
             "find_relevant_best_practices": "You are an assistant designed to match text with given best practices. Find and return the sections most similar to the following best practice. Return the relevant parts without any extra changes. If no content found, return 'NA'. Here is the webpage:",
-            "summarize_suggestion": "以下是客戶Well Architect Framework各topic的現況與建議，請整理出重點，解釋其為何被劃為「短期/中期/長期」，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
+            "summarize_suggestion": "以下是客戶Well-Architected Framework各topic的現況與建議，請整理出重點，解釋其為何被劃為「短期/中期/長期」，並強調能這些改善能為客戶帶來的效果與價值，字數在200字以內"
         }
         ```
         

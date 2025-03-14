@@ -227,7 +227,7 @@ def generate_report(service, data: dict) -> None:
     total_score = data['total_score']
     total_num = data['total_num']
     total_maturity = f"{round(total_score/total_num * 100, 1)}%"
-    text_here, requests = insert_text(requests, f"Well Architect 整體成熟度: {total_maturity}", "HEADING_1", text_here)
+    text_here, requests = insert_text(requests, f"Well-Architected Framework 整體成熟度: {total_maturity}", "HEADING_1", text_here)
 
     # 插入整體圖表
     for img_serial_num, uri in enumerate(data['chart_path']):
@@ -343,7 +343,7 @@ def generate_report(service, data: dict) -> None:
         print(f"\n  ❏ Topic {topic['topic']} 寫入完成")
     
     # 插入短中長期改善建議
-    text_here, requests = insert_text(requests, f"Well Architect 改善建議統整", "HEADING_1", text_here)
+    text_here, requests = insert_text(requests, f"Well-Architected 改善建議統整", "HEADING_1", text_here)
     for i, stage in enumerate(STAGE_ORDER): 
         text_here, requests = insert_text(requests, f"{stage}", "HEADING_3", text_here)
         if data['suggestions'][i]:
