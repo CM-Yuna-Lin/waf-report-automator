@@ -101,7 +101,7 @@ def insert_bullet(requests: list, service, startIndex: int, endIndex: int) -> (i
             'bulletPreset': 'BULLET_DISC_CIRCLE_SQUARE',
         }
     })
-    text_here, requests = get_content_start(requests, service, DOC_INSERTION_POINT)
+    text_here, requests = get_content_start(requests, service, INSERT_POINT)
     return text_here, requests
 
 def insert_link(requests: list, startIndex: int, endIndex: int, url: str) -> list:
@@ -223,7 +223,7 @@ def generate_report(service, data: dict) -> None:
     requests = merge_data(requests, "REPORT_DATE", date)
 
     # 定位到插入點並插入總成熟度分數
-    text_here, requests = get_content_start(requests, service, DOC_INSERTION_POINT)
+    text_here, requests = get_content_start(requests, service, INSERT_POINT)
     total_score = data['total_score']
     total_num = data['total_num']
     total_maturity = f"{round(total_score/total_num * 100, 1)}%"
@@ -245,7 +245,7 @@ def generate_report(service, data: dict) -> None:
             continue
         
         topic_cnt += 1
-        text_here, requests = get_content_start(requests, service, DOC_INSERTION_POINT)
+        text_here, requests = get_content_start(requests, service, INSERT_POINT)
         text_here, requests = insert_text(requests, f"\nTopic {topic_cnt}", "HEADING_6", text_here)
         text_here, requests = insert_text(requests, f"{topic['topic']} ☁️", "HEADING_1", text_here)
         text_here, requests = insert_text(requests, f"主題成熟度：{round(topic['topic_score']/topic['topic_num'] * 100, 1)}%\n", "NORMAL_TEXT", text_here)
@@ -352,7 +352,7 @@ def generate_report(service, data: dict) -> None:
             text_here, requests = insert_text(requests, "    (無)", "NORMAL_TEXT", text_here, 1)
     
     # 刪除定位用字串
-    requests = delete_text(requests, service, DOC_INSERTION_POINT)
+    requests = delete_text(requests, service, INSERT_POINT)
 
     requests = update_doc(service, requests)
 

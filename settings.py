@@ -50,7 +50,7 @@ PROMPTS = {
 #   - SLEEP_IMAGE_PROCESSING: 圖片處理的額外延遲時間（秒）
 #   - GOOGLE_WORKSHEET_NAME: 問卷工作表名稱
 #   - QUESTIONNAIRE_END_MARKER: 問卷結尾標記字串，系統遇到此標記時停止讀取資料
-#   - DOC_INSERTION_POINT: Google Doc 插入點標記，寫入後會自動刪除
+#   - INSERT_POINT: Google Doc 插入點標記，寫入後會自動刪除
 #   - GOOGLE_SCOPES: Google API 權限設定
 #   - TOKEN_DIR: 存放憑證的資料夾路徑
 #   - GOOGLE_CLIENT_SECRET_FILE: OAuth 2.0 客戶端密鑰檔案路徑
@@ -63,7 +63,7 @@ SLEEP_IMAGE_PROCESSING = 5
 
 GOOGLE_WORKSHEET_NAME = "Questionnaire"
 QUESTIONNAIRE_END_MARKER = "QUESTIONNAIRE_END_MARKER"
-DOC_INSERTION_POINT = "DOC_INSERTION_POINT"
+INSERT_POINT = "INSERT_POINT"
 
 GOOGLE_SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",

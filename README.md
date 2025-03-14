@@ -103,8 +103,16 @@ Edit by Yuna Lin 2025/03/12
         
         ⚠️  在「報告日期」欄位需包含 `REPORT_DATE` 字樣，用於代入報告日期
         
-        ⚠️  為了程式執行需要，文件中需包含 `INSERT_POINT` 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
-        $${\color{red}Welcome \space \color{lightblue}To \space \color{orange}Stackoverflow}$$
+        ⚠️  為了程式執行需要，**文件中需包含 `INSERT_POINT` 字樣**，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
+        ```diff
+        - INSERT_POINT 用途
+
+          INSERT_POINT 字樣的用途是讓程式知道該從 Google Doc 的何處開始寫入，程式會由 INSERT_POINT 開始寫入報告內容，寫入完畢後字樣將自動刪除
+
+          => 只要有包含 INSERT_POINT 字樣，程式可以將內容寫入任何 Google Doc
+
+          => 對一份已完成的 WAF report 重新執行一遍程式，程式可以接續 INSERT_POINT 的位置繼續寫入，不會移除或覆蓋原本的內容。但目前程式在寫入完畢後為自動將 INSERT_POINT 字樣刪除，故重新執行可能會因為在文件中無法找到 INSERT_POINT 而報錯，手動加入字樣後再執行即可
+        ```
         
     - **3️⃣ Google Drive Folder — Folder ID**
         
