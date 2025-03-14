@@ -105,7 +105,7 @@ Edit by Yuna Lin 2025/03/12
         
         ⚠️  為了程式執行需要，**文件中需包含 `INSERT_POINT` 字樣**，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
         ```diff
-        - INSERT_POINT 用途
+        - 🌟🌟🌟 INSERT_POINT 用途 🌟🌟🌟
 
           INSERT_POINT 字樣的用途是讓程式知道該從 Google Doc 的何處開始寫入，程式會由 INSERT_POINT 開始寫入報告內容，寫入完畢後字樣將自動刪除
 
