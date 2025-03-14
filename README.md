@@ -5,7 +5,7 @@ Edit by Yuna Lin 2025/03/12
 ## Abstract / 專案摘要
 
 
-本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well-Architected Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
+本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well-Architected Framework Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
 
 此工具使用 Google API 來讀取試算表、生成報表、上傳圖片，並透過生成式 AI（Gemini）來優化數據摘要。
 
@@ -103,7 +103,8 @@ Edit by Yuna Lin 2025/03/12
         
         ⚠️  在「報告日期」欄位需包含 `REPORT_DATE` 字樣，用於代入報告日期
         
-        ⚠️  為了程式執行需要，文件中需包含 `DOC_INSERTION_POINT` 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
+        ⚠️  為了程式執行需要，文件中需包含 `INSERT_POINT` 字樣，此字樣用於標記 Google Doc 內的插入點，程式會由此開始寫入報告內容，寫入完畢後字樣將自動刪除
+        $${\color{red}Welcome \space \color{lightblue}To \space \color{orange}Stackoverflow}$$
         
     - **3️⃣ Google Drive Folder — Folder ID**
         
