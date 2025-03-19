@@ -197,7 +197,7 @@ Edit by Yuna Lin 2025/03/12
 │
 ├── credentials/                
 │   ├── client_secret.json      # Google API 用戶端金鑰設定檔
-│   └── token.pickle            # 存儲 Google API 存取令牌的檔案
+│   └── token.pickle            # 存儲 Google API 存取令牌的檔案，在第一次登入授權後自動產生
 │
 ├── google_api/                 
 │   ├── google_auth.py          # Google API 驗證與服務初始化模組
