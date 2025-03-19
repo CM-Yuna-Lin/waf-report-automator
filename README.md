@@ -4,7 +4,6 @@ Edit by Yuna Lin 2025/03/12
 
 ## Abstract / 專案摘要
 
-
 本專案是用於生成 WAF 報告的自動化工具，通過 Google Sheets 讀取 GCP Well-Architected Framework Questionnaire 問卷結果，並根據結果數據生成圖表、客戶現況統整與建議改善計畫，最終輸出至 Google Docs 報告中。藉由自動化統整與輸出，此工具期望節省整理 WAF 報告的時間與人力，並優化客戶體驗，讓客戶在 WAF 訪談後的短時間內可以取得初步報告、進行初步審視與規劃。
 
 此工具使用 Google API 來讀取試算表、生成報表、上傳圖片，並透過生成式 AI（Gemini）來優化數據摘要。
@@ -16,7 +15,11 @@ Edit by Yuna Lin 2025/03/12
 - 自動生成各類圖表並上傳至 Google Drive
 - 自動填充 Google Docs 報告模板
 
+### 相關參考檔案位置
 
+- CloudMile Knowledge Base 內位置：https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link
+- waf-report-automator 問卷形式範例（Google Sheets）：https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link
+- waf-report-automator 報告模板範例（Google Docs）：https://docs.google.com/document/d/16kjsf2ybs7-PBrTF7G6s3i6ka8LLWwmh1jM5chcdLMY/edit?usp=drive_link
 
 ## Excetion Guide / 執行步驟說明
 
@@ -76,7 +79,7 @@ Edit by Yuna Lin 2025/03/12
 
     - **1️⃣ Google Sheet Questionnaire — Spreadsheet ID**
         
-        請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件
+        請與客戶完成問卷後取得試算表 ID，程式將讀取此試算表的問卷填寫情形，以 LLM 進行統整，以利後續將資料寫入文件（[問卷形式參考](https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link)）
         
         - LLM 統整欄位說明
             
@@ -99,7 +102,7 @@ Edit by Yuna Lin 2025/03/12
         
     - **2️⃣ Google Doc Template — Document ID**
         
-        程式將把報告內容寫入此文件檔案，請複製原 Template 檔案後取得新檔案的 ID
+        程式將把報告內容寫入此文件檔案，請複製原模板檔案後取得新檔案的 ID（[報告模板參考](https://docs.google.com/document/d/16kjsf2ybs7-PBrTF7G6s3i6ka8LLWwmh1jM5chcdLMY/edit?usp=drive_link)）
         
         ⚠️  在「報告日期」欄位需包含 `REPORT_DATE` 字樣，用於代入報告日期
         
@@ -258,6 +261,30 @@ Edit by Yuna Lin 2025/03/12
 
         由 GCP console 調高 API 請求額度，便可將 SLEEP 調整為更短的秒數
 
+3. **解決 raise KeyError(key) from err KeyError: 'XXX'**
+
+    若程式碼執行過程中出現此錯誤，通常是由於問卷 column name 遭到修改、出現缺漏，請檢查 Google Sheets 問卷是否完整具備以下欄位，並特別注意拼字與空白（欄位順序沒有影響）。
+
+    - 例如：若報錯為 KeyError: 'topic'，請注意 Google Sheets 中是否存在正確的 'Topics' 欄位
+
+    ```
+    {
+        'Topics': 'topic',
+        'Best Practice Areas': 'area',
+        'Questions': 'question',
+        'Suggested Development Stages': 'stage',
+        'Client Conditions': 'client_condition',
+        'Suggested Improvements': 'improvement_plan',
+        'Checklist': 'check',
+        'Items': 'item',
+        'Client Status Notes': 'note',
+        'Refined Notes': 'refined_note',
+        'GCP Best Practices': 'best_practice',
+        'GCP Best Practice References': 'best_practice_ref',
+        'GCP Best Practice Content': 'best_practice_content',
+        'Suggestion': 'suggestion'
+    }
+    ```
 
 ## Feature Modifications & Expansion Suggestions / 功能修改 & 擴充建議
 
