@@ -17,9 +17,12 @@ Edit by Yuna Lin 2025/03/12
 
 ### 相關參考檔案位置
 
-- CloudMile Knowledge Base 內位置：https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link
-- waf-report-automator 問卷形式範例（Google Sheets）：https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link
-- waf-report-automator 報告模板範例（Google Docs）：https://docs.google.com/document/d/16kjsf2ybs7-PBrTF7G6s3i6ka8LLWwmh1jM5chcdLMY/edit?usp=drive_link
+- CloudMile Knowledge Base 內位置：
+  https://drive.google.com/drive/folders/1uc0xsG5NrorqOeqGbac5WhAGKyYDNqRb?usp=drive_link
+- waf-report-automator 問卷形式範例（Google Sheets）：
+  https://docs.google.com/spreadsheets/d/1xq1G0bC8JcaN7NqgRn85V5i2_9_eR12sWaJROSJCs5Y/edit?usp=drive_link
+- waf-report-automator 報告模板範例（Google Docs）：
+  https://docs.google.com/document/d/16kjsf2ybs7-PBrTF7G6s3i6ka8LLWwmh1jM5chcdLMY/edit?usp=drive_link
 
 ## Excetion Guide / 執行步驟說明
 
